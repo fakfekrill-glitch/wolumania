@@ -16,16 +16,18 @@ $img_history = "https://images.unsplash.com/photo-1526666923127-b2970f64b422?w=5
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 $allowed_pages = ['home', 'about', 'history', 'gallery', 'join'];
 
-// --- INCLUDE SYSTEM (Pake ../ karena file ini ada di dalam folder api) ---
+// --- INCLUDE SYSTEM (Pake __DIR__ biar Absolute Path) ---
 
-// 1. Panggil Header dari folder luar
-include '../includes/header.php';
+// Panggil Header
+// __DIR__ . '/../' artinya: Dari folder api, mundur satu langkah ke root
+include __DIR__ . '/../includes/header.php'; 
 
-// 2. Panggil Halaman Konten
 if (in_array($page, $allowed_pages)) {
-    // Cek apakah filenya ada sebelum di-include
-    if (file_exists("../pages/$page.php")) {
-        include "../pages/$page.php";
+    // Cek file
+    $file_path = __DIR__ . "/../pages/$page.php";
+    
+    if (file_exists($file_path)) {
+        include $file_path;
     } else {
         echo "<div class='container' style='text-align:center; padding:50px;'><h2>Error: File halaman tidak ditemukan di server.</h2></div>";
     }
@@ -33,6 +35,7 @@ if (in_array($page, $allowed_pages)) {
     echo "<div class='container' style='text-align:center; padding:50px;'><h2>404 - Halaman Tidak Ditemukan</h2></div>";
 }
 
-// 3. Panggil Footer dari folder luar
-include '../includes/footer.php';
+// Panggil Footer
+include __DIR__ . '/../includes/footer.php';
+
 ?>
